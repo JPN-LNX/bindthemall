@@ -769,7 +769,7 @@ public abstract class UserPreferences {
     }
 
     public static String getDefaultPage() {
-        return prefs.getString(PREF_DEFAULT_PAGE, "HomeFragment");
+        return prefs.getString(PREF_DEFAULT_PAGE, "NewsFragment");
     }
 
     public static void setDefaultPage(String defaultPage) {
