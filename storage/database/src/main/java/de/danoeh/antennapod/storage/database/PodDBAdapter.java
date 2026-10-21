@@ -55,7 +55,7 @@ public class PodDBAdapter {
 
     private static final String TAG = "PodDBAdapter";
     public static final String DATABASE_NAME = "Antennapod.db";
-    public static final int VERSION = 3110000;
+    public static final int VERSION = 3110100;
 
     /**
      * Maximum number of arguments for IN-operator.
@@ -121,6 +121,7 @@ public class PodDBAdapter {
     public static final String KEY_FEED_SKIP_INTRO = "feed_skip_intro";
     public static final String KEY_FEED_SKIP_ENDING = "feed_skip_ending";
     public static final String KEY_FEED_TAGS = "tags";
+    public static final String KEY_FEED_MEDIA_CATEGORY = "media_category";
     public static final String KEY_EPISODE_NOTIFICATION = "episode_notification";
     public static final String KEY_NEW_EPISODES_ACTION = "new_episodes_action";
     public static final String KEY_PODCASTINDEX_CHAPTER_URL = "podcastindex_chapter_url";
@@ -175,6 +176,7 @@ public class PodDBAdapter {
             + KEY_FEED_SKIP_SILENCE + " INTEGER DEFAULT " + FeedPreferences.SkipSilence.GLOBAL.code + ","
             + KEY_FEED_VOLUME_ADAPTION + " INTEGER DEFAULT 0,"
             + KEY_FEED_TAGS + " TEXT,"
+            + KEY_FEED_MEDIA_CATEGORY + " INTEGER DEFAULT 0,"
             + KEY_FEED_SKIP_INTRO + " INTEGER DEFAULT 0,"
             + KEY_FEED_SKIP_ENDING + " INTEGER DEFAULT 0,"
             + KEY_EPISODE_NOTIFICATION + " INTEGER DEFAULT 0,"
@@ -340,6 +342,7 @@ public class PodDBAdapter {
             + TABLE_NAME_FEEDS + "." + KEY_FEED_PLAYBACK_SPEED + ", "
             + TABLE_NAME_FEEDS + "." + KEY_FEED_SKIP_SILENCE + ", "
             + TABLE_NAME_FEEDS + "." + KEY_FEED_TAGS + ", "
+            + TABLE_NAME_FEEDS + "." + KEY_FEED_MEDIA_CATEGORY + ", "
             + TABLE_NAME_FEEDS + "." + KEY_FEED_SKIP_INTRO + ", "
             + TABLE_NAME_FEEDS + "." + KEY_FEED_SKIP_ENDING + ", "
             + TABLE_NAME_FEEDS + "." + KEY_EPISODE_NOTIFICATION + ", "
@@ -507,6 +510,7 @@ public class PodDBAdapter {
         values.put(KEY_FEED_PLAYBACK_SPEED, prefs.getFeedPlaybackSpeed());
         values.put(KEY_FEED_SKIP_SILENCE, prefs.getFeedSkipSilence().code);
         values.put(KEY_FEED_TAGS, prefs.getTagsAsString());
+        values.put(KEY_FEED_MEDIA_CATEGORY, prefs.getMediaCategory().code);
         values.put(KEY_FEED_SKIP_INTRO, prefs.getFeedSkipIntro());
         values.put(KEY_FEED_SKIP_ENDING, prefs.getFeedSkipEnding());
         values.put(KEY_EPISODE_NOTIFICATION, prefs.getShowEpisodeNotification());

@@ -26,9 +26,12 @@ import androidx.core.app.ActivityCompat;
 import de.danoeh.antennapod.R;
 import de.danoeh.antennapod.net.download.serviceinterface.FeedUpdateManager;
 
+import de.danoeh.antennapod.storage.database.DBReader;
+import de.danoeh.antennapod.storage.database.DBWriter;
 import de.danoeh.antennapod.storage.database.FeedDatabaseWriter;
 import de.danoeh.antennapod.databinding.OpmlSelectionBinding;
 import de.danoeh.antennapod.model.feed.Feed;
+import de.danoeh.antennapod.model.feed.FeedPreferences;
 import de.danoeh.antennapod.storage.importexport.OpmlElement;
 import de.danoeh.antennapod.storage.importexport.OpmlReader;
 import de.danoeh.antennapod.storage.preferences.UserPreferences;
@@ -60,6 +63,7 @@ public class OpmlImportActivity extends ToolbarActivity {
     private MenuItem selectAll;
     private MenuItem deselectAll;
     private ArrayList<OpmlElement> readElements;
+    private FeedPreferences.MediaCategory importCategory = FeedPreferences.MediaCategory.AUTO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,14 +93,7 @@ public class OpmlImportActivity extends ToolbarActivity {
             setResult(RESULT_CANCELED);
             finish();
         });
-        viewBinding.butConfirm.setOnClickListener(v -> {
-            if (UserPreferences.isParentalControlPasswordSet()
-                    && UserPreferences.isParentalControlRequireSubscribeSet()) {
-                ParentalControlDialog.show(this, this::doImport);
-                return;
-            }
-            doImport();
-        });
+        viewBinding.butConfirm.setOnClickListener(v -> chooseCategory());
 
         Uri uri = getIntent().getData();
         if (uri != null && uri.toString().startsWith("/")) {
@@ -108,6 +105,34 @@ public class OpmlImportActivity extends ToolbarActivity {
             }
         }
         importUri(uri);
+    }
+
+    private void chooseCategory() {
+        FeedPreferences.MediaCategory[] categories = {
+            FeedPreferences.MediaCategory.AUTO,
+            FeedPreferences.MediaCategory.NEWS,
+            FeedPreferences.MediaCategory.AUDIO,
+            FeedPreferences.MediaCategory.VIDEO
+        };
+        String[] labels = {
+            getString(R.string.media_category_auto),
+            getString(R.string.news_label),
+            getString(R.string.audio_tab_label),
+            getString(R.string.video_tab_label)
+        };
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.media_category_import_title)
+                .setItems(labels, (dialog, which) -> {
+                    importCategory = categories[which];
+                    if (UserPreferences.isParentalControlPasswordSet()
+                            && UserPreferences.isParentalControlRequireSubscribeSet()) {
+                        ParentalControlDialog.show(this, this::doImport);
+                        return;
+                    }
+                    doImport();
+                })
+                .setNegativeButton(R.string.cancel_label, null)
+                .show();
     }
 
     private void doImport() {
@@ -122,7 +147,14 @@ public class OpmlImportActivity extends ToolbarActivity {
                 Feed feed = new Feed(element.getXmlUrl(), null,
                         element.getText() != null ? element.getText() : "Unknown podcast");
                 feed.setItems(Collections.emptyList());
-                FeedDatabaseWriter.updateFeed(this, feed, false);
+                Feed savedFeed = FeedDatabaseWriter.updateFeed(this, feed, false);
+                if (importCategory != FeedPreferences.MediaCategory.AUTO && savedFeed != null) {
+                    Feed loadedFeed = DBReader.getFeed(savedFeed.getId(), false, 0, 0);
+                    if (loadedFeed != null && loadedFeed.getPreferences() != null) {
+                        loadedFeed.getPreferences().setMediaCategory(importCategory);
+                        DBWriter.setFeedPreferences(loadedFeed.getPreferences()).get();
+                    }
+                }
             }
             FeedUpdateManager.getInstance().runOnce(this);
         })

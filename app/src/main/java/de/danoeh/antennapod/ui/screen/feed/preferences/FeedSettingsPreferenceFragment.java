@@ -64,6 +64,7 @@ public class FeedSettingsPreferenceFragment extends PreferenceFragmentCompat {
     private static final String PREF_AUTHENTICATION = "authentication";
     private static final String PREF_AUTO_DELETE = "autoDelete";
     private static final String PREF_NEW_EPISODES_ACTION = "feedNewEpisodesAction";
+    private static final String PREF_MEDIA_CATEGORY = "feedMediaCategory";
     private static final String PREF_FEED_PLAYBACK_SPEED = "feedPlaybackSpeed";
     private static final String PREF_AUTO_SKIP = "feedAutoSkip";
     private static final String PREF_NOTIFICATION = "episodeNotification";
@@ -141,6 +142,7 @@ public class FeedSettingsPreferenceFragment extends PreferenceFragmentCompat {
                     updateAutoDeleteSummary();
                     updateAutoDownloadEnabledSummary();
                     updateNewEpisodesActionSummary();
+                    setupMediaCategoryPreference();
 
                     findPreference(PREF_RECONNECT_LOCAL_FOLDER).setVisible(feed.isLocalFeed());
                     if (feed.isLocalFeed()) {
@@ -321,6 +323,34 @@ public class FeedSettingsPreferenceFragment extends PreferenceFragmentCompat {
         };
         autoDeletePreference.setSummary(summary);
         autoDeletePreference.setValue("" + feedPreferences.getAutoDeleteAction().code);
+    }
+
+    private void setupMediaCategoryPreference() {
+        ListPreference categoryPreference = findPreference(PREF_MEDIA_CATEGORY);
+        CharSequence[] labels = {
+            getString(R.string.media_category_auto),
+            getString(R.string.news_label),
+            getString(R.string.audio_tab_label),
+            getString(R.string.video_tab_label)
+        };
+        CharSequence[] values = {
+            "" + FeedPreferences.MediaCategory.AUTO.code,
+            "" + FeedPreferences.MediaCategory.NEWS.code,
+            "" + FeedPreferences.MediaCategory.AUDIO.code,
+            "" + FeedPreferences.MediaCategory.VIDEO.code
+        };
+        categoryPreference.setEntries(labels);
+        categoryPreference.setEntryValues(values);
+        categoryPreference.setValue("" + feedPreferences.getMediaCategory().code);
+        categoryPreference.setSummary(labels[categoryPreference.findIndexOfValue(categoryPreference.getValue())]);
+        categoryPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            int code = Integer.parseInt((String) newValue);
+            feedPreferences.setMediaCategory(FeedPreferences.MediaCategory.fromCode(code));
+            DBWriter.setFeedPreferences(feedPreferences);
+            categoryPreference.setValue((String) newValue);
+            categoryPreference.setSummary(labels[categoryPreference.findIndexOfValue((String) newValue)]);
+            return false;
+        });
     }
 
     private void updateNewEpisodesActionSummary() {

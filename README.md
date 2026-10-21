@@ -10,6 +10,7 @@ Agrégateur RSS / audio / YouTube pour Android, basé sur [AntennaPod](https://g
   - **Vidéos** (caméra) : épisodes vidéo.
 
   Tous sont classés du plus récent au plus ancien. L'écran est dans le menu et peut être placé dans la barre du bas via « Personnaliser ».
+- **Catégorie par flux** : chaque flux est classé automatiquement selon ses épisodes (sans fichier → Actus, vidéo → Vidéos, sinon Audio), ou rangé de force dans une catégorie. Le choix se fait à l'import d'un fichier OPML (pour tous les flux importés) ou plus tard dans les réglages du flux, rubrique « Catégorie ».
 
 ## Obtenir l'APK
 

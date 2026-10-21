@@ -3,6 +3,7 @@ package de.danoeh.antennapod.storage.database.mapper;
 import android.text.TextUtils;
 import de.danoeh.antennapod.model.feed.Feed;
 import de.danoeh.antennapod.model.feed.FeedItemFilter;
+import de.danoeh.antennapod.model.feed.FeedPreferences;
 import de.danoeh.antennapod.storage.database.PodDBAdapter;
 
 import java.util.ArrayList;
@@ -71,6 +72,17 @@ public class FeedItemFilterQuery {
         } else if (filter.showVideoMedia) {
             statements.add(keyMimeType + " LIKE 'video%' ");
         }
+        String noMediaCondition = keyMediaId + " IS NULL";
+        String videoCondition = keyMimeType + " LIKE 'video%'";
+        String audioCondition = keyMediaId + " NOT NULL AND (" + keyMimeType + " IS NULL OR "
+                + keyMimeType + " NOT LIKE 'video%')";
+        if (filter.showCategoryNews) {
+            statements.add(categoryCondition(keyFeedId, FeedPreferences.MediaCategory.NEWS, noMediaCondition));
+        } else if (filter.showCategoryAudio) {
+            statements.add(categoryCondition(keyFeedId, FeedPreferences.MediaCategory.AUDIO, audioCondition));
+        } else if (filter.showCategoryVideo) {
+            statements.add(categoryCondition(keyFeedId, FeedPreferences.MediaCategory.VIDEO, videoCondition));
+        }
         if (filter.showIsFavorite) {
             statements.add(keyItemId + " IN (SELECT " + keyFeedItem + " FROM " + tableFavorites + ") ");
         } else if (filter.showNotFavorite) {
@@ -110,5 +122,14 @@ public class FeedItemFilterQuery {
         }
         query.append(") ");
         return query.toString();
+    }
+
+    private static String categoryCondition(String keyFeedId, FeedPreferences.MediaCategory category,
+                                            String autoCondition) {
+        String feedsWithCategory = "SELECT " + PodDBAdapter.KEY_ID + " FROM " + PodDBAdapter.TABLE_NAME_FEEDS
+                + " WHERE " + PodDBAdapter.KEY_FEED_MEDIA_CATEGORY + " = ";
+        return " (" + keyFeedId + " IN (" + feedsWithCategory + category.code + ") OR ("
+                + keyFeedId + " IN (" + feedsWithCategory + FeedPreferences.MediaCategory.AUTO.code + ") AND "
+                + autoCondition + ")) ";
     }
 }

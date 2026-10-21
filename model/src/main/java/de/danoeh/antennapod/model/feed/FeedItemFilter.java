@@ -24,6 +24,9 @@ public class FeedItemFilter implements Serializable {
     public final boolean showNoMedia;
     public final boolean showAudioMedia;
     public final boolean showVideoMedia;
+    public final boolean showCategoryNews;
+    public final boolean showCategoryAudio;
+    public final boolean showCategoryVideo;
     public final boolean showIsFavorite;
     public final boolean showNotFavorite;
     public final boolean showInHistory;
@@ -42,6 +45,9 @@ public class FeedItemFilter implements Serializable {
     public static final String NO_MEDIA = "no_media";
     public static final String AUDIO_MEDIA = "audio_media";
     public static final String VIDEO_MEDIA = "video_media";
+    public static final String CATEGORY_NEWS = "category_news";
+    public static final String CATEGORY_AUDIO = "category_audio";
+    public static final String CATEGORY_VIDEO = "category_video";
     public static final String QUEUED = "queued";
     public static final String NOT_QUEUED = "not_queued";
     public static final String DOWNLOADED = "downloaded";
@@ -82,6 +88,9 @@ public class FeedItemFilter implements Serializable {
         showNoMedia = hasProperty(NO_MEDIA);
         showAudioMedia = hasProperty(AUDIO_MEDIA);
         showVideoMedia = hasProperty(VIDEO_MEDIA);
+        showCategoryNews = hasProperty(CATEGORY_NEWS);
+        showCategoryAudio = hasProperty(CATEGORY_AUDIO);
+        showCategoryVideo = hasProperty(CATEGORY_VIDEO);
         showIsFavorite = hasProperty(IS_FAVORITE);
         showNotFavorite = hasProperty(NOT_FAVORITE);
         showNew = hasProperty(NEW);
@@ -134,6 +143,12 @@ public class FeedItemFilter implements Serializable {
             return false;
         } else if (showVideoMedia && (!item.hasMedia() || item.getMedia().getMediaType() != MediaType.VIDEO)) {
             return false;
+        } else if (showCategoryNews && getCategory(item) != FeedPreferences.MediaCategory.NEWS) {
+            return false;
+        } else if (showCategoryAudio && getCategory(item) != FeedPreferences.MediaCategory.AUDIO) {
+            return false;
+        } else if (showCategoryVideo && getCategory(item) != FeedPreferences.MediaCategory.VIDEO) {
+            return false;
         } else if (showIsFavorite && !item.isTagged(FeedItem.TAG_FAVORITE)) {
             return false;
         } else if (showNotFavorite && item.isTagged(FeedItem.TAG_FAVORITE)) {
@@ -157,5 +172,18 @@ public class FeedItemFilter implements Serializable {
             }
         }
         return true;
+    }
+
+    private static FeedPreferences.MediaCategory getCategory(FeedItem item) {
+        if (item.getFeed() != null && item.getFeed().getPreferences() != null
+                && item.getFeed().getPreferences().getMediaCategory() != FeedPreferences.MediaCategory.AUTO) {
+            return item.getFeed().getPreferences().getMediaCategory();
+        }
+        if (!item.hasMedia()) {
+            return FeedPreferences.MediaCategory.NEWS;
+        } else if (item.getMedia().getMediaType() == MediaType.VIDEO) {
+            return FeedPreferences.MediaCategory.VIDEO;
+        }
+        return FeedPreferences.MediaCategory.AUDIO;
     }
 }

@@ -36,6 +36,9 @@
     <string name="no_audio_label">Subscribe to a podcast to listen to its episodes here.</string>
     <string name="no_video_head_label">No videos</string>
     <string name="no_video_label">Subscribe to a video podcast to watch its episodes here.</string>
+    <string name="media_category_title">Category</string>
+    <string name="media_category_auto">Detect automatically</string>
+    <string name="media_category_import_title">Where should the imported feeds go?</string>
     <string name="settings_label">Settings</string>
     <string name="downloads_label">Downloads</string>
     <string name="downloads_label_short">Downloads</string>

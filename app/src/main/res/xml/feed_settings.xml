@@ -71,6 +71,11 @@
             android:title="@string/pref_auto_delete_playback_title" />
 
         <de.danoeh.antennapod.ui.preferences.preference.MaterialListPreference
+            android:icon="@drawable/ic_news"
+            android:key="feedMediaCategory"
+            android:title="@string/media_category_title" />
+
+        <de.danoeh.antennapod.ui.preferences.preference.MaterialListPreference
             android:entries="@array/feedNewEpisodesActionItems"
             android:entryValues="@array/feedNewEpisodesActionValues"
             android:icon="@drawable/ic_feed"

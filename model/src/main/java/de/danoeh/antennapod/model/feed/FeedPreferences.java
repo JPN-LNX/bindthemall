@@ -60,6 +60,25 @@ public class FeedPreferences implements Serializable {
         }
     }
 
+    public enum MediaCategory {
+        AUTO(0), NEWS(1), AUDIO(2), VIDEO(3);
+
+        public final int code;
+
+        MediaCategory(int code) {
+            this.code = code;
+        }
+
+        public static MediaCategory fromCode(int code) {
+            for (MediaCategory c : values()) {
+                if (c.code == code) {
+                    return c;
+                }
+            }
+            return AUTO;
+        }
+    }
+
     public enum SkipSilence {
         OFF(0), GLOBAL(1), AGGRESSIVE(2);
 
@@ -116,6 +135,7 @@ public class FeedPreferences implements Serializable {
     private SkipSilence feedSkipSilence;
     private boolean showEpisodeNotification;
     private final Set<String> tags = new HashSet<>();
+    private MediaCategory mediaCategory = MediaCategory.AUTO;
 
     public FeedPreferences(long feedID, AutoDownloadSetting autoDownload, AutoDeleteAction autoDeleteAction,
                            VolumeAdaptionSetting volumeAdaptionSetting, NewEpisodesAction newEpisodesAction,
@@ -180,6 +200,15 @@ public class FeedPreferences implements Serializable {
             return;
         this.username = other.username;
         this.password = other.password;
+    }
+
+    @NonNull
+    public MediaCategory getMediaCategory() {
+        return mediaCategory;
+    }
+
+    public void setMediaCategory(@NonNull MediaCategory mediaCategory) {
+        this.mediaCategory = mediaCategory;
     }
 
     public long getFeedID() {

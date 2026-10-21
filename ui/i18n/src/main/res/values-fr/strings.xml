@@ -1011,4 +1011,7 @@
     <string name="no_audio_label">Abonnez-vous à un podcast pour écouter ses épisodes ici.</string>
     <string name="no_video_head_label">Aucune vidéo</string>
     <string name="no_video_label">Abonnez-vous à un podcast vidéo pour regarder ses épisodes ici.</string>
+    <string name="media_category_title">Catégorie</string>
+    <string name="media_category_auto">Détecter automatiquement</string>
+    <string name="media_category_import_title">Où ranger les flux importés ?</string>
 </resources>

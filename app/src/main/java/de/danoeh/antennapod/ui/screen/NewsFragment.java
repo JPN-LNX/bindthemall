@@ -23,9 +23,9 @@ public class NewsFragment extends EpisodesListFragment {
     private static final int TAB_NEWS = 0;
     private static final int TAB_AUDIO = 1;
     private static final int TAB_VIDEO = 2;
-    private static final FeedItemFilter FILTER_NEWS = new FeedItemFilter(FeedItemFilter.NO_MEDIA);
-    private static final FeedItemFilter FILTER_AUDIO = new FeedItemFilter(FeedItemFilter.AUDIO_MEDIA);
-    private static final FeedItemFilter FILTER_VIDEO = new FeedItemFilter(FeedItemFilter.VIDEO_MEDIA);
+    private static final FeedItemFilter FILTER_NEWS = new FeedItemFilter(FeedItemFilter.CATEGORY_NEWS);
+    private static final FeedItemFilter FILTER_AUDIO = new FeedItemFilter(FeedItemFilter.CATEGORY_AUDIO);
+    private static final FeedItemFilter FILTER_VIDEO = new FeedItemFilter(FeedItemFilter.CATEGORY_VIDEO);
     private static int selectedTab = TAB_NEWS;
     private static Pair<Integer, Integer> scrollPosition = null;
 
