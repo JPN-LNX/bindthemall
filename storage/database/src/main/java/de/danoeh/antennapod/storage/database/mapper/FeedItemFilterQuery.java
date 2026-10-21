@@ -27,6 +27,7 @@ public class FeedItemFilterQuery {
         String keyCompletionDate = PodDBAdapter.TABLE_NAME_FEED_MEDIA + "." + PodDBAdapter.KEY_LAST_PLAYED_TIME_HISTORY;
         String keyDownloaded = PodDBAdapter.TABLE_NAME_FEED_MEDIA + "." + PodDBAdapter.KEY_DOWNLOAD_DATE;
         String keyMediaId = PodDBAdapter.TABLE_NAME_FEED_MEDIA + "." + PodDBAdapter.KEY_ID;
+        String keyMimeType = PodDBAdapter.TABLE_NAME_FEED_MEDIA + "." + PodDBAdapter.KEY_MIME_TYPE;
         String keyItemId = PodDBAdapter.TABLE_NAME_FEED_ITEMS + "." + PodDBAdapter.KEY_ID;
         final String keyFeedId = PodDBAdapter.TABLE_NAME_FEED_ITEMS + "." + PodDBAdapter.KEY_FEED;
         String keyFeedItem = PodDBAdapter.KEY_FEEDITEM;
@@ -63,6 +64,12 @@ public class FeedItemFilterQuery {
             statements.add(keyMediaId + " NOT NULL ");
         } else if (filter.showNoMedia) {
             statements.add(keyMediaId + " IS NULL ");
+        }
+        if (filter.showAudioMedia) {
+            statements.add(" (" + keyMediaId + " NOT NULL AND (" + keyMimeType + " IS NULL OR "
+                    + keyMimeType + " NOT LIKE 'video%')) ");
+        } else if (filter.showVideoMedia) {
+            statements.add(keyMimeType + " LIKE 'video%' ");
         }
         if (filter.showIsFavorite) {
             statements.add(keyItemId + " IN (SELECT " + keyFeedItem + " FROM " + tableFavorites + ") ");

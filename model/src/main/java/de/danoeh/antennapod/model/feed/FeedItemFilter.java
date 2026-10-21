@@ -1,5 +1,7 @@
 package de.danoeh.antennapod.model.feed;
 
+import de.danoeh.antennapod.model.playback.MediaType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,8 @@ public class FeedItemFilter implements Serializable {
     public final boolean showNotDownloaded;
     public final boolean showHasMedia;
     public final boolean showNoMedia;
+    public final boolean showAudioMedia;
+    public final boolean showVideoMedia;
     public final boolean showIsFavorite;
     public final boolean showNotFavorite;
     public final boolean showInHistory;
@@ -36,6 +40,8 @@ public class FeedItemFilter implements Serializable {
     public static final String NOT_FAVORITE = "not_favorite";
     public static final String HAS_MEDIA = "has_media";
     public static final String NO_MEDIA = "no_media";
+    public static final String AUDIO_MEDIA = "audio_media";
+    public static final String VIDEO_MEDIA = "video_media";
     public static final String QUEUED = "queued";
     public static final String NOT_QUEUED = "not_queued";
     public static final String DOWNLOADED = "downloaded";
@@ -74,6 +80,8 @@ public class FeedItemFilter implements Serializable {
         showNotDownloaded = hasProperty(NOT_DOWNLOADED);
         showHasMedia = hasProperty(HAS_MEDIA);
         showNoMedia = hasProperty(NO_MEDIA);
+        showAudioMedia = hasProperty(AUDIO_MEDIA);
+        showVideoMedia = hasProperty(VIDEO_MEDIA);
         showIsFavorite = hasProperty(IS_FAVORITE);
         showNotFavorite = hasProperty(NOT_FAVORITE);
         showNew = hasProperty(NEW);
@@ -121,6 +129,10 @@ public class FeedItemFilter implements Serializable {
         } else if (showHasMedia && !item.hasMedia()) {
             return false;
         } else if (showNoMedia && item.hasMedia()) {
+            return false;
+        } else if (showAudioMedia && (!item.hasMedia() || item.getMedia().getMediaType() == MediaType.VIDEO)) {
+            return false;
+        } else if (showVideoMedia && (!item.hasMedia() || item.getMedia().getMediaType() != MediaType.VIDEO)) {
             return false;
         } else if (showIsFavorite && !item.isTagged(FeedItem.TAG_FAVORITE)) {
             return false;

@@ -1003,4 +1003,12 @@
     <string name="news_label_short">Actus</string>
     <string name="no_news_head_label">Aucun article</string>
     <string name="no_news_label">Abonnez-vous au flux RSS d\'un site d\'actualités ou d\'un blog pour lire ses articles ici.</string>
+    <string name="media_hub_label">Mes médias</string>
+    <string name="media_hub_label_short">Médias</string>
+    <string name="audio_tab_label">Audio</string>
+    <string name="video_tab_label">Vidéos</string>
+    <string name="no_audio_head_label">Aucun audio</string>
+    <string name="no_audio_label">Abonnez-vous à un podcast pour écouter ses épisodes ici.</string>
+    <string name="no_video_head_label">Aucune vidéo</string>
+    <string name="no_video_label">Abonnez-vous à un podcast vidéo pour regarder ses épisodes ici.</string>
 </resources>

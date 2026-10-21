@@ -4,7 +4,12 @@ Agrégateur RSS / audio / YouTube pour Android, basé sur [AntennaPod](https://g
 
 ## Ajouts par rapport à AntennaPod
 
-- **Onglet Actus** : liste les articles des flux RSS qui n'ont pas de fichier audio (sites d'actualités, blogs), du plus récent au plus ancien. On y accède depuis le menu ; il peut être placé dans la barre du bas via « Personnaliser ».
+- **Écran « Mes médias »** avec trois onglets en haut :
+  - **Actus** (journal) : articles des flux RSS sans fichier audio (sites d'actualités, blogs) ;
+  - **Audio** (note de musique) : épisodes de podcasts audio ;
+  - **Vidéos** (caméra) : épisodes vidéo.
+
+  Tous sont classés du plus récent au plus ancien. L'écran est dans le menu et peut être placé dans la barre du bas via « Personnaliser ».
 
 ## Obtenir l'APK
 

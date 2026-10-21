@@ -68,7 +68,7 @@ public abstract class NavigationNames {
             case FavoritesFragment.TAG:
                 return R.string.favorite_episodes_label;
             case NewsFragment.TAG:
-                return R.string.news_label;
+                return R.string.media_hub_label;
             case NavListAdapter.SUBSCRIPTION_LIST_TAG:
                 return R.string.subscriptions_list_label;
             default:
@@ -99,7 +99,7 @@ public abstract class NavigationNames {
             case FavoritesFragment.TAG:
                 return R.string.favorite_episodes_label_short;
             case NewsFragment.TAG:
-                return R.string.news_label_short;
+                return R.string.media_hub_label_short;
             case NavListAdapter.SUBSCRIPTION_LIST_TAG:
                 return R.string.subscriptions_list_label;
             default:

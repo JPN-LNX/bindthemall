@@ -28,6 +28,14 @@
     <string name="news_label_short">News</string>
     <string name="no_news_head_label">No articles</string>
     <string name="no_news_label">Subscribe to a news or blog RSS feed to read its articles here.</string>
+    <string name="media_hub_label">My media</string>
+    <string name="media_hub_label_short">Media</string>
+    <string name="audio_tab_label">Audio</string>
+    <string name="video_tab_label">Videos</string>
+    <string name="no_audio_head_label">No audio</string>
+    <string name="no_audio_label">Subscribe to a podcast to listen to its episodes here.</string>
+    <string name="no_video_head_label">No videos</string>
+    <string name="no_video_label">Subscribe to a video podcast to watch its episodes here.</string>
     <string name="settings_label">Settings</string>
     <string name="downloads_label">Downloads</string>
     <string name="downloads_label_short">Downloads</string>

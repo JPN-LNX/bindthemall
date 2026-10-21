@@ -111,7 +111,7 @@ public class SwipeActionsDialog {
                 forFragment = context.getString(R.string.favorite_episodes_label);
                 break;
             case NewsFragment.TAG:
-                forFragment = context.getString(R.string.news_label);
+                forFragment = context.getString(R.string.media_hub_label);
                 break;
             default: break;
         }
